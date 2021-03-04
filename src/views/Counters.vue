@@ -15,7 +15,12 @@
         />
       </div>
       <div class="toolbar">
-        <div>waitings: {{ waitingList.length }}</div>
+        <div>Waitings: {{ waitingList.length }}</div>
+        <div class="btn-group">
+          <div>Counters +/-</div>
+          <div @click="reduceCounter" :class="['minus-btn', { 'is-enable': isCounterReduceable }]">-</div>
+          <div @click="addCounter" :class="['plus-btn', { 'is-enable': isCounterAddable }]">+</div>
+        </div>
         <div @click="drawer" class="action-btn">NEXT: {{ nextDrawNum }}</div>
       </div>
     </div>
@@ -41,6 +46,15 @@ export default {
     idleCounterNum() {
       return this.counters.filter(element => element.status === 1).length;
     },
+    activeCounterNum() {
+      return this.counters.filter(element => element.status > 0).length;
+    },
+    isCounterAddable() {
+      return this.activeCounterNum < this.counters.length;
+    },
+    isCounterReduceable() {
+      return (this.activeCounterNum > 1) && this.idleCounterNum > 0;
+    },
   },
   mounted() {
     this.init();
@@ -65,13 +79,13 @@ export default {
         }, {
           id: 2,
           name: 'Cory',
-          status: this.$counterStatusDict.idle,
+          status: this.$counterStatusDict.offline,
           processing: 0,
           processed: [],
         }, {
           id: 3,
           name: 'Dora',
-          status: this.$counterStatusDict.idle,
+          status: this.$counterStatusDict.offline,
           processing: 0,
           processed: [],
         },
@@ -108,6 +122,22 @@ export default {
         targetCounter.processing = 0;
       }
     },
+    addCounter() {
+      const firstOfflineIndex = this.counters.findIndex(element => element.status === this.$counterStatusDict.offline);
+      if (this.activeCounterNum < this.counters.length && firstOfflineIndex > -1) {
+        this.counters[firstOfflineIndex].status = this.$counterStatusDict.idle;
+        if (this.waitingList.length > 0) {
+          this.arrangeCounter(firstOfflineIndex, this.waitingList[0]);
+          this.waitingList.shift();
+        }
+      }
+    },
+    reduceCounter() {
+      const firstIdleIndex = this.counters.findIndex(element => element.status === this.$counterStatusDict.idle);
+      if (this.activeCounterNum > 1 && firstIdleIndex > -1) {
+        this.counters[firstIdleIndex].status = this.$counterStatusDict.offline;
+      }
+    }
   },
 };
 </script>
@@ -160,8 +190,55 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 10px 0;
+    margin: 20px 0;
     padding: 0 10px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 12px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .btn-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      .minus-btn,
+      .plus-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 18px;
+        margin-left: 10px;
+        color: #fff;
+        cursor: not-allowed;
+
+        &:hover {
+          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      .minus-btn {
+        background: #e0b9b2bb;
+
+        &.is-enable {
+          cursor: pointer;
+          background: #ED553B;
+        }
+      }
+
+      .plus-btn {
+        background: #8eaaa7a8;
+
+        &.is-enable {
+          cursor: pointer;
+          background: #3CAEA3;
+        }
+      }
+    }
 
     .action-btn {
       display: flex;
@@ -170,11 +247,17 @@ export default {
       width: 100px;
       height: 36px;
       border-radius: 10px;
-      background: cornflowerblue;
+      background: #173F5F;
       color: #fff;
       cursor: pointer;
       &:hover {
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      @media screen and (max-width: 768px) {
+        margin: 30px auto 0;
+        width: 100%;
+        max-width: 360px;
       }
     }
   }
