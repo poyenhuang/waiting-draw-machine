@@ -3,9 +3,9 @@
     <div class="counter-container">
       <div class="counter-table">
         <div class="counter-table-header">
-          <div>counter</div>
+          <div>counter1111</div>
           <div>processing222</div>
-          <div>processed</div>
+          <div>processed2222</div>
         </div>
         <Counter
           v-for="(counter, index) in counters"
@@ -17,8 +17,7 @@
       <div class="toolbar">
         <div>Waitings: {{ waitingList.length }}</div>
         <div class="btn-group">
-          <div>Counters +/-</div>
-          <div>counter111</div>
+          <div>counter Counters</div>
           <div @click="reduceCounter" :class="['minus-btn', { 'is-enable': isCounterReduceable }]">-</div>
           <div @click="addCounter" :class="['plus-btn', { 'is-enable': isCounterAddable }]">+</div>
         </div>
