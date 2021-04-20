@@ -18,6 +18,7 @@
         <div>Waitings: {{ waitingList.length }}</div>
         <div class="btn-group">
           <div>Counters +/-</div>
+          <div>Counters +/-</div>
           <div @click="reduceCounter" :class="['minus-btn', { 'is-enable': isCounterReduceable }]">-</div>
           <div @click="addCounter" :class="['plus-btn', { 'is-enable': isCounterAddable }]">+</div>
         </div>
