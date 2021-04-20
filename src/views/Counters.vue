@@ -3,9 +3,9 @@
     <div class="counter-container">
       <div class="counter-table">
         <div class="counter-table-header">
-          <div>counter1111</div>
-          <div>processing222</div>
-          <div>processed2222</div>
+          <div>counter</div>
+          <div>processing</div>
+          <div>processed</div>
         </div>
         <Counter
           v-for="(counter, index) in counters"
