@@ -3,7 +3,7 @@
     <div class="counter-container">
       <div class="counter-table">
         <div class="counter-table-header">
-          <div>Counter </div>
+          <div>Counter</div>
           <div>Processing</div>
           <div>Processed</div>
         </div>
