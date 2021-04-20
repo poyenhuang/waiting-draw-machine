@@ -4,7 +4,7 @@
       <div class="counter-table">
         <div class="counter-table-header">
           <div>counter</div>
-          <div>processing222</div>
+          <div>processing</div>
           <div>processed</div>
         </div>
         <Counter
